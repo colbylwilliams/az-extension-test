@@ -1,0 +1,96 @@
+{
+    "version": "2.0.0",
+    "type": "shell",
+    "options": {
+        "cwd": "${workspaceFolder}"
+    },
+    "problemMatcher": [],
+    "presentation": {
+        "showReuseMessage": false,
+    },
+    "tasks": [
+        {
+            "label": "azdev: linter",
+            "command": "source .venv/bin/activate; azdev linter ${input:extensionName}",
+            "windows": {
+                "command": ".venv\\Scripts\\Activate.ps1; azdev linter ${input:extensionName}"
+            },
+            "icon": {
+                "id": "azure",
+                "color": "terminal.ansiCyan"
+            }
+        },
+        {
+            "label": "azdev: style",
+            "command": "source .venv/bin/activate; azdev style ${input:extensionName}",
+            "windows": {
+                "command": ".venv\\Scripts\\Activate.ps1; azdev style ${input:extensionName}"
+            },
+            "icon": {
+                "id": "azure",
+                "color": "terminal.ansiCyan"
+            }
+        },
+        {
+            "label": "azdev: setup",
+            "detail": "Setup the cli extension development environment",
+            "command": "source .venv/bin/activate; azdev setup -r ${workspaceFolder} -e ${input:extensionName}",
+            "windows": {
+                "command": ".venv\\Scripts\\Activate.ps1; azdev setup -r ${workspaceFolder} -e ${input:extensionName}"
+            },
+            "dependsOrder": "sequence",
+            "dependsOn": [
+                "venv: create",
+                "azdev: install"
+            ],
+            "icon": {
+                "id": "azure",
+                "color": "terminal.ansiCyan"
+            }
+        },
+        {
+            "label": "azdev: install",
+            "command": "source .venv/bin/activate; pip3 install azdev",
+            "windows": {
+                "command": ".venv\\Scripts\\Activate.ps1; pip3 install azdev"
+            },
+            "icon": {
+                "id": "azure",
+                "color": "terminal.ansiCyan"
+            }
+        },
+        {
+            "label": "venv: create",
+            "command": "python3",
+            "args": [
+                "-m",
+                "venv",
+                ".venv"
+            ],
+            "icon": {
+                "id": "terminal",
+                "color": "terminal.ansiMagenta"
+            }
+        },
+        {
+            "label": "venv: delete",
+            "command": "rm",
+            "args": [
+                "-r",
+                ".venv"
+            ],
+            "icon": {
+                "id": "terminal",
+                "color": "terminal.ansiMagenta"
+            }
+        }
+    ],
+    "inputs": [
+        {
+            "id": "extensionName",
+            "type": "promptString",
+            "description": "Name of the AZ CLI extension.",
+            "default": "EXTENSION_NAME"
+        },
+    ]
+}
